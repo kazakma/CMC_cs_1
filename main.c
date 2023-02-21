@@ -22,7 +22,11 @@ void bubble(long long int *a, int n){
             if (cmp(a[j], a[j + 1])) swap(&a[j], &a[j + 1]);
 }
 
-void quick(long long int *a, int l, int r){
+void quick(long long int *a, int i){
+    q(a, 0, i - 1);
+}
+
+void q(long long int *a, int l, int r){
   long long int x;
   int i = l, j = r;
   x = a[(l + r) / 2];//Берём элемент в центре массива
@@ -30,12 +34,29 @@ void quick(long long int *a, int l, int r){
     while (cmp(x, a[i])) i++;//Ищем слева больше барьера
     while (cmp(a[j], x)) j--;//Ищем справа меньше барьера
     if (i <= j){
-        swap(&a[i], &a[j]);
+        if (i != j) swap(&a[i], &a[j]);//Чтобы не переставлялся сам с собой
         i++; j--;
     }
   }
-  if (l < j) quick(a, l, j);//Применяем к левой части
-  if (i < r) quick(a, i, r);//Применяем к правой части
+  if (l < j) q(a, l, j);//Применяем к левой части
+  if (i < r) q(a, i, r);//Применяем к правой части
+}
+
+void check(int n){
+    long long int a[n];
+    long long int aw[n];
+    printf("Массив:\n");
+    for (int i = 0; i < n; i++){
+        scanf("%lld", &a[i]);
+        aw[i] = a[i];
+    }
+    bubble(a, n);
+    printf("После пузырька:\n");
+    print(a, n);
+    printf("\n");
+    quick(aw, n);
+    printf("После быстрой:\n");
+    print(aw, n);
 }
 
 void cook(long long int *a, int n){
@@ -48,7 +69,7 @@ void straight(long long int *a, int n){
 }
 
 void rev(long long int *a, int n){
-    for (int i = n - 1; i >= 0; i--) a[i] = i;//
+    for (int i = 0; i < n; i++) a[i] = n - 1 -i;//
 }
 
 void print(long long int *a, int n){
@@ -68,7 +89,7 @@ void part(long long int *a, long long int *aw, int i){
     printf("\n\t Перестановки: %d Сравнения: %d\n", k1, k2);
     memcpy(aw, a, i * sizeof(long long int));
     k1 = 0; k2 = 0;
-    quick(aw, 0, i - 1);
+    quick(aw, i);
     printf("\n\tПосле быстрой: ");
     print(aw, i);
     printf("\n\t Перестановки: %d Сравнения: %d\n", k1, k2);
@@ -77,6 +98,9 @@ void part(long long int *a, long long int *aw, int i){
 
 int main(void)
 {
+    printf("Количество элементов:\n");
+    int a; scanf("%d", &a);
+    check(a);
     for (int i = 10; i <= 10; i *= 10){
         long long int *a = malloc(i * sizeof(long long int));
         long long int *aw = malloc(i * sizeof(long long int));
