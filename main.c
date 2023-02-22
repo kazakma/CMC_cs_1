@@ -3,16 +3,16 @@
 #include <time.h>
 #include <string.h>
 int k1 = 0, k2 = 0;
-void swap(long long int *a, long long int *b){
+void swap(long long int *f, long long int *s){
     k1++;
-    long long int temp = *a;
-    *a = *b; *b = temp;
+    long long int temp = *f;
+    *f = *s; *s = temp;
     return;
 }
 
-int cmp(long long int a, long long int b){
+int cmp(long long int f, long long int s){//Функция сравнения
     k2++;
-    return llabs(a) < llabs(b);
+    return llabs(f) < llabs(s);
     }
 
 void bubble(long long int *a, int n){
@@ -22,8 +22,8 @@ void bubble(long long int *a, int n){
             if (cmp(a[j], a[j + 1])) swap(&a[j], &a[j + 1]);
 }
 
-void quick(long long int *a, int i){
-    q(a, 0, i - 1);
+void quick(long long int *a, int n){
+    q(a, 0, n - 1);
 }
 
 void q(long long int *a, int l, int r){
@@ -42,11 +42,11 @@ void q(long long int *a, int l, int r){
   if (i < r) q(a, i, r);//Применяем к правой части
 }
 
-void check(int n){
+void check(int n){//Функция для проверки работы алгоритмов на собственных примерах
     long long int a[n];
     long long int aw[n];
     printf("Массив:\n");
-    for (int i = 0; i < n; i++){
+    for (int i = 0; i < n; i++){//Вводим массив и сразу же делаем его копию
         scanf("%lld", &a[i]);
         aw[i] = a[i];
     }
@@ -65,60 +65,60 @@ void cook(long long int *a, int n){
 }
 
 void straight(long long int *a, int n){
-    for (int i = 0; i < n; i++) a[i] = i;//
+    for (int i = 0; i < n; i++) a[i] = i;//Заполняем упорядоченными элементами
 }
 
 void rev(long long int *a, int n){
-    for (int i = 0; i < n; i++) a[i] = n - 1 -i;//
+    for (int i = 0; i < n; i++) a[i] = n - 1 -i;//Заполняем элементами в обратном порядке
 }
 
 void print(long long int *a, int n){
-    for (int i = 0; i < n; i++) printf("%lld ", a[i]);
+    if (n == 10) for (int i = 0; i < n; i++) printf("%lld ", a[i]);//Функция вывода
 }
 
-void part(long long int *a, long long int *aw, int i){
+void part(long long int *a, int n){//Прогоняем случайный, отсортированный, отсортированный в обратном порядке массивы длины n по каждой из сортировок
+    long long int *aw = malloc(n * sizeof(long long int));
     k1 = 0; k2 = 0;
-    printf("\tИсходный массив: ");
-    print(a, i);
+    if (n == 10) printf("\tИсходный массив: ");
+    print(a, n);
     printf("\n");
-    memcpy(aw, a, i * sizeof(long long int));
+    memcpy(aw, a, n * sizeof(long long int));
     k1 = 0; k2 = 0;
-    bubble(aw, i);
+    bubble(aw, n);
     printf("\n\tПосле пузырька: ");
-    print(aw, i);
+    print(aw, n);
     printf("\n\t Перестановки: %d Сравнения: %d\n", k1, k2);
-    memcpy(aw, a, i * sizeof(long long int));
+    memcpy(aw, a, n * sizeof(long long int));
     k1 = 0; k2 = 0;
-    quick(aw, i);
+    quick(aw, n);
     printf("\n\tПосле быстрой: ");
-    print(aw, i);
+    print(aw, n);
     printf("\n\t Перестановки: %d Сравнения: %d\n", k1, k2);
     printf("\n");
+    free(aw);
 }
 
 int main(void)
 {
     printf("Количество элементов:\n");
-    int a; scanf("%d", &a);
-    check(a);
-    for (int i = 10; i <= 10; i *= 10){
+    int x; scanf("%d", &x);
+    check(x);
+    for (int i = 10; i <= 10000; i *= 10){
         long long int *a = malloc(i * sizeof(long long int));
-        long long int *aw = malloc(i * sizeof(long long int));
 
         cook(a, i);
         printf("\nCлучайные числа\n");
-        part(a, aw, i);
+        part(a, i);
 
         straight(a, i);
         printf("\Прямой порядок\n");
-        part(a, aw, i);
+        part(a, i);
 
         rev(a, i);
         printf("\Обратный порядок\n");
-        part(a, aw, i);
+        part(a, i);
 
         free(a);
-        free(aw);
         printf("\n");
     }
     return 0;
