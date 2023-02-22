@@ -45,17 +45,17 @@ void q(long long int *a, int l, int r){
 void check(int n){//Функция для проверки работы алгоритмов на собственных примерах
     long long int a[n];
     long long int aw[n];
-    printf("Массив:\n");
+    printf("Array: ");
     for (int i = 0; i < n; i++){//Вводим массив и сразу же делаем его копию
         scanf("%lld", &a[i]);
         aw[i] = a[i];
     }
     bubble(a, n);
-    printf("После пузырька:\n");
+    printf("After bubble: ");
     print(a, n);
     printf("\n");
     quick(aw, n);
-    printf("После быстрой:\n");
+    printf("After quick: ");
     print(aw, n);
 }
 
@@ -79,43 +79,44 @@ void print(long long int *a, int n){
 void part(long long int *a, int n){//Прогоняем случайный, отсортированный, отсортированный в обратном порядке массивы длины n по каждой из сортировок
     long long int *aw = malloc(n * sizeof(long long int));
     k1 = 0; k2 = 0;
-    if (n == 10) printf("\tИсходный массив: ");
+    if (n == 10) printf("\tOriginal array: ");
     print(a, n);
     printf("\n");
     memcpy(aw, a, n * sizeof(long long int));
     k1 = 0; k2 = 0;
     bubble(aw, n);
-    printf("\n\tПосле пузырька: ");
+    printf("\n\tAfter bubble: ");
     print(aw, n);
-    printf("\n\t Перестановки: %d Сравнения: %d\n", k1, k2);
+    printf("\n\t Permutations: %d Comparisons: %d\n", k1, k2);
     memcpy(aw, a, n * sizeof(long long int));
     k1 = 0; k2 = 0;
     quick(aw, n);
-    printf("\n\tПосле быстрой: ");
+    printf("\n\tAfter quick: ");
     print(aw, n);
-    printf("\n\t Перестановки: %d Сравнения: %d\n", k1, k2);
+    printf("\n\t Permutations: %d Comparisons: %d\n", k1, k2);
     printf("\n");
     free(aw);
 }
 
 int main(void)
 {
-    printf("Количество элементов:\n");
+    printf("Number of elements: ");
     int x; scanf("%d", &x);
     check(x);
     for (int i = 10; i <= 10000; i *= 10){
         long long int *a = malloc(i * sizeof(long long int));
 
         cook(a, i);
-        printf("\nCлучайные числа\n");
+        printf("\n\t\t\tN = %d\n", i);
+        printf("\nRandom\n");
         part(a, i);
 
         straight(a, i);
-        printf("\Прямой порядок\n");
+        printf("\nStraight\n");
         part(a, i);
 
         rev(a, i);
-        printf("\Обратный порядок\n");
+        printf("\nReverse\n");
         part(a, i);
 
         free(a);
