@@ -73,7 +73,7 @@ void rev(long long int *a, int n){
 }
 
 void print(long long int *a, int n){
-    if (n == 10) for (int i = 0; i < n; i++) printf("%lld ", a[i]);//Функция вывода
+    if (n <= 10) for (int i = 0; i < n; i++) printf("%lld ", a[i]);//Функция вывода
 }
 
 void part(long long int *a, int n){//Прогоняем случайный, отсортированный, отсортированный в обратном порядке массивы длины n по каждой из сортировок
