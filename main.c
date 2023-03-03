@@ -17,9 +17,16 @@ int cmp(long long int f, long long int s){//Функция сравнения
 
 void bubble(long long int *a, int n){
     int i, j;
-    for (i = 0; i < n - 1; i++)//Подмассив из последнего элемента не рассматриваем
-        for (j = 0; j < n - i - 1; j++)//После каждого прохода наибольшие элементы упорядочиваются
-            if (cmp(a[j], a[j + 1])) swap(&a[j], &a[j + 1]);
+    for (i = 0; i < n - 1; i++){//Подмассив из последнего элемента не рассматриваем
+        int flag = 1;
+        for (j = 0; j < n - i - 1; j++){//После каждого прохода наибольшие элементы упорядочиваются
+            if (cmp(a[j], a[j + 1])){
+                flag = 0;
+                swap(&a[j], &a[j + 1]);
+            }
+        }
+        if (flag) break;
+    }
 }
 
 void quick(long long int *a, int n){
